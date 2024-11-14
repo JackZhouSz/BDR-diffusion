@@ -8,7 +8,6 @@ from pytorch_lightning.plugins import DDPPlugin
 from utils.utils import exists
 from pytorch_lightning import loggers as pl_loggers
 from utils.utils import ensure_directory, run, get_tensorboard_dir, find_best_epoch
-from utils.shapenet_utils import snc_category_to_synth_id_all
 
 
 def train_from_folder(
@@ -52,7 +51,7 @@ def train_from_folder(
     else:
         debug = False
 
-    data_classes = list(snc_category_to_synth_id_all.keys())
+    data_classes = []
     data_classes.extend(["debug","microstructure", "all"])
     assert data_class in data_classes
 

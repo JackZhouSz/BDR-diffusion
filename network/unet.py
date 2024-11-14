@@ -56,12 +56,6 @@ class UNetModel(nn.Module):
         self.null_emb0=nn.Parameter(torch.zeros(emb_dim))
         self.null_emb1=nn.Parameter(torch.zeros(emb_dim))
         self.null_emb2=nn.Parameter(torch.zeros(emb_dim))
-        if self.use_text_condition:
-            self.text_emb = nn.Sequential(
-                nn.Linear(text_condition_dim, emb_dim),
-                activation_function(),
-                nn.Linear(emb_dim, emb_dim)
-            )
 
         self.input_emb = conv_nd(world_dims, 3, base_channels, 3, padding=1)
         self.downs = nn.ModuleList([])
@@ -149,8 +143,6 @@ class UNetModel(nn.Module):
         cond_emb2[null_index]=self.null_emb2
         cond_emb=[cond_emb0,cond_emb1,cond_emb2]
 
-        if self.use_text_condition:
-            text_condition = self.text_emb(text_condition)
         h = []
 
         for resnet, cross_attn, self_attn, downsample in self.downs:
